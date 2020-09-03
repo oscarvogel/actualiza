@@ -71,6 +71,7 @@ class BotonCopiaExe(Boton):
     carpetadestino = "" #carpeta local
     archivoini = "" #archivo ini a utilizar
     requiereinicio = False #indica si es necesario pedir usuario y contraseña
+    exclude = [] #lista de carpetas a excluir en la copia
 
 
     def __init__(self, *args, **kwargs):

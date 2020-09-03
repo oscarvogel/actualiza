@@ -23,6 +23,7 @@ class Main(ControladorBase):
     carpetaorigen = ""
     carpetadestino = ""
     archivoini = ""
+    exclude = []
 
     def __init__(self):
         super().__init__()
@@ -47,6 +48,7 @@ class Main(ControladorBase):
         self.carpetaorigen = boton.carpetaorigen
         self.carpetadestino = boton.carpetadestino
         self.archivoini = boton.archivoini
+        self.exclude = boton.exclude
 
         if self.Verifica():
             self.Copia()
@@ -119,9 +121,11 @@ class Main(ControladorBase):
         self.view.lblAvance.setVisible(True)
         self.view.lblAvance.setText("Actualizando sistema aguarde...")
         self.myLongTask = TaskThread()
+        self.myLongTask.controlador = self
         self.myLongTask.carpetadestino = self.carpetadestino
         self.myLongTask.carpetaorigen = self.carpetaorigen
         self.myLongTask.archivoini = self.archivoini
+        self.myLongTask.exclude = self.exclude
         self.myLongTask.taskFinished.connect(self.onFinished)
         self.view.avance.setRange(0, 0)
         QApplication.processEvents()
@@ -152,32 +156,38 @@ class TaskThread(QtCore.QThread):
     carpetaorigen = ""
     carpetadestino = ""
     archivoini = ""
+    controlador = None
+    exclude = []
 
     def run(self):
         self.copia(self.carpetaorigen, self.carpetadestino)
         self.taskFinished.emit()
 
     def copia(self, carpetaorigen, carpetadestino):
+        shutil.rmtree(carpetadestino)
+        os.mkdir(carpetadestino)
         source = os.listdir(carpetaorigen)
         for file in source:
-            try:
-                if os.path.isfile(join(carpetaorigen, file)):
-                    if not file.endswith(".ini"):
-                        try:
-                            shutil.copy(join(carpetaorigen, file), join(carpetadestino, file))
-                        except:
-                            pass
+            self.controlador.view.lblAvance.setText(f"Copiando {carpetaorigen}{file} a {carpetadestino}"[:80])
+            if file not in self.exclude:
+                try:
+                    if os.path.isfile(join(carpetaorigen, file)):
+                        if not file.endswith(".ini"):
+                            try:
+                                shutil.copy(join(carpetaorigen, file), join(carpetadestino, file))
+                            except:
+                                pass
+                        else:
+                            print("Copiando archivo ini de {} a {}".format(
+                                join(carpetaorigen, file), join(carpetadestino, file)
+                            ))
+                            if not os.path.isfile(join(carpetadestino, file)):
+                                shutil.copy(join(carpetaorigen, file), join(carpetadestino, file))
                     else:
-                        print("Copiando archivo ini de {} a {}".format(
-                            join(carpetaorigen, file), join(carpetadestino, file)
-                        ))
-                        if not os.path.isfile(join(carpetadestino, file)):
-                            shutil.copy(join(carpetaorigen, file), join(carpetadestino, file))
-                else:
-                    if not os.path.exists(join(carpetadestino, file)):
-                        os.mkdir(join(carpetadestino, file))
-                    self.copia(join(carpetaorigen, file), join(carpetadestino, file))
-            except:
-                logging.error(f"Error al copiar {carpetaorigen}{file} a {carpetadestino}")
-                print(f"Error al copiar {carpetaorigen}{file} a {carpetadestino}")
+                        if not os.path.exists(join(carpetadestino, file)):
+                            os.mkdir(join(carpetadestino, file))
+                        self.copia(join(carpetaorigen, file), join(carpetadestino, file))
+                except:
+                    logging.error(f"Error al copiar {carpetaorigen}{file} a {carpetadestino}")
+                    print(f"Error al copiar {carpetaorigen}{file} a {carpetadestino}")
 

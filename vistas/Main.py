@@ -50,11 +50,12 @@ class MainView(QWidget):
         self.layoutBotones.addWidget(self.btnSistemaFasa)
 
         self.btnAberturas = BotonCopiaExe(texto='&Aberturas', imagen=imagen('aberturas.png'))
-        self.btnAberturas.exeorigen = "aberturas.exe"
-        self.btnAberturas.exedestino = "aberturas.exe"
+        self.btnAberturas.exeorigen = "sistema.exe"
+        self.btnAberturas.exedestino = "sistema.exe"
         self.btnAberturas.carpetadestino = join("c:\\", "aberturas")
-        self.btnAberturas.carpetaorigen = join("z:\\", "steffenpython", "aberturas")
-        self.btnAberturas.archivoini = "aberturas.ini"
+        self.btnAberturas.carpetaorigen = join("z:\\", "steffenpython", "sistema")
+        self.btnAberturas.archivoini = "sistema.ini"
+        self.btnAberturas.exclude = ['aberturas', 'facturas', 'pdf']
         self.layoutBotones.addWidget(self.btnAberturas)
 
         self.btnTransporte = BotonCopiaExe(texto='&Transporte', imagen=imagen('truck.png'))
