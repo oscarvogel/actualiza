@@ -164,11 +164,11 @@ class TaskThread(QtCore.QThread):
         self.taskFinished.emit()
 
     def copia(self, carpetaorigen, carpetadestino):
-        shutil.rmtree(carpetadestino)
-        os.mkdir(carpetadestino)
+        # shutil.rmtree(carpetadestino)
+        # os.mkdir(carpetadestino)
         source = os.listdir(carpetaorigen)
         for file in source:
-            self.controlador.view.lblAvance.setText(f"Copiando {carpetaorigen}{file} a {carpetadestino}"[:80])
+            self.controlador.view.lblAvance.setText(f"Copiando {carpetaorigen}\{file} a {carpetadestino}"[:80])
             if file not in self.exclude:
                 try:
                     if os.path.isfile(join(carpetaorigen, file)):

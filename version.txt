@@ -31,10 +31,10 @@ VSVersionInfo(
         u'040904b0',
         [StringStruct(u'CompanyName', u'Ferreteria Avenida SA'),
         StringStruct(u'ProductName', u'Sistema Actualizador de Ejecutables'),
-        StringStruct(u'ProductVersion', u'2020, 8, 4, 1'),
+        StringStruct(u'ProductVersion', u'2020, 9, 8, 1'),
         StringStruct(u'InternalName', u'Sistema Actualizador de Ejecutables'),
         StringStruct(u'OriginalFilename', u'actualizaexe.exe'),
-        StringStruct(u'FileVersion', u'2020, 8, 4, 1'),
+        StringStruct(u'FileVersion', u'2020, 9, 8, 1'),
         StringStruct(u'FileDescription', u'Sistema Actualizador de Ejecutables'),
         StringStruct(u'LegalCopyright', u'Copyright 2019, Ferreteria Avenida SA'),
         StringStruct(u'LegalTrademarks', u'Marca registrada de Ferreteria Avenida SA'),])
